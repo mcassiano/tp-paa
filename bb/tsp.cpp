@@ -18,7 +18,7 @@ void TSP::run_rec(Solution &current, Solution &best) {
     /* base case */
     if (current.isComplete()) {
         
-        if (current.getCost() <= best.getCost())
+        if (current.getCost() < best.getCost())
             best = current;
         
         return;
