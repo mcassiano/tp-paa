@@ -8,4 +8,4 @@ brute: brute.cpp
 
 .PHONY: clean
 clean:
-	rm -f *.o *~a.out *.gch brute
+	rm -rf *.o *~a.out *.gch brute *.dSYM
