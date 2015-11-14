@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
     Population pop(50, true);
     pop = GA::evolvePopulation(pop);
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 100; i++)
         pop = GA::evolvePopulation(pop);
 
 
