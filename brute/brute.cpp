@@ -15,8 +15,14 @@ float calc_dist_city(struct city *c1, struct city *c2) {
     return sqrt(pow(c2->x - c1->x, 2) +  pow(c2->y - c1->y, 2));
 }
 
-void swap(int *x, int *y)
-{
+/**
+    Troca os elementos de posição.
+    O(1) pior caso
+
+    @param int* x partida
+    @param int* x destino
+*/
+void swap(int *x, int *y) {
     int temp;
     temp = *x;
     *x = *y;
@@ -24,8 +30,18 @@ void swap(int *x, int *y)
 }
 
 
-void permute(int *a, int l, int r, float *min_cost, int *sol, float dists[MAX_CITY][MAX_CITY])
-{
+/**
+    Gera todas permutações e salva a de menor de custo.
+    O(n!) pior/melhor caso
+
+    @param a Armazena uma permutação
+    @param l Contador da esquerda
+    @param r Representa até que elemento do vetor deve acontecer a permutação
+    @param min_cost Armazena o menor custo
+    @param sol Vetor de inteiros que armazena o melhor caminho
+    @param dists Matriz distâcias das cidades
+*/
+void permute(int *a, int l, int r, float *min_cost, int *sol, float dists[MAX_CITY][MAX_CITY]) {
     if (l == r) {
         /* check the cost for this path */
         
@@ -64,6 +80,17 @@ void permute(int *a, int l, int r, float *min_cost, int *sol, float dists[MAX_CI
 }
 
 
+/**
+    Resolve o problema do TSP.
+    O(n) -> chama função O(n!)
+
+    @param a Armazena uma permutação
+    @param l Contador da esquerda
+    @param r Representa até que elemento do vetor deve acontecer a permutação
+    @param min_cost Armazena o menor custo
+    @param sol Vetor de inteiros que armazena o melhor caminho
+    @param dists Matriz distâcias das cidades
+*/
 void solve(float dists[MAX_CITY][MAX_CITY], int n) {
     
     int initial_state[MAX_CITY], sol[MAX_CITY];
@@ -92,9 +119,11 @@ int main (int argc, char **argv) {
     
     scanf("%d", &n);
     
+    // O(n)
     for (int i = 0; i < n; i++)
         scanf("%d %d", &(cities[i].x), &(cities[i].y));
     
+    // O(n^2)
     for (int i = 0; i < n; i++) {
         dists[i][i] = 0;
         for (int j = 0; j < n; j++) {

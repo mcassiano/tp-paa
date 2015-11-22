@@ -40,7 +40,7 @@ int rand_util_double(double from, double to) {
 
 /**
     Gera um número aleatório.
-    Pior caso: O(n^3) Melhor caso: O(n^2) comparações
+    Pior caso: O(n^4) Melhor caso: O(n^3) comparações
 
     @param from começo do intervalo
     @param to fim do intervalo
