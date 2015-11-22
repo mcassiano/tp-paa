@@ -6,6 +6,13 @@ static const float mutationRate = 0.015;
 static const int tournamentSize = 5;
 static const bool elitism = true;
 
+/**
+    Gera um inteiro aleatório.
+    O(1) comparações
+
+    @param from começo do intervalo
+    @param to fim do intervalo
+*/
 int rand_util_int(int from, int to) {
 
     static random_device rd;
@@ -15,6 +22,13 @@ int rand_util_int(int from, int to) {
     return distr(eng);
 }
 
+/**
+    Gera um número aleatório.
+    O(1) comparações
+
+    @param from começo do intervalo
+    @param to fim do intervalo
+*/
 int rand_util_double(double from, double to) {
 
 	static random_device rd;
@@ -24,6 +38,13 @@ int rand_util_double(double from, double to) {
     return distr(eng);
 }
 
+/**
+    Gera um número aleatório.
+    Pior caso: O(n^3) Melhor caso: O(n^2) comparações
+
+    @param from começo do intervalo
+    @param to fim do intervalo
+*/
 Population GA::evolvePopulation(Population p) {
 
 	Population newPopulation(p.getSize(), false);
@@ -56,6 +77,14 @@ Population GA::evolvePopulation(Population p) {
 }
 
 
+/**
+    Gera um filho a partir de dois pais, com crossover.
+    Melhor caso: O(n^2) Pior caso: O(n^3) comparações.
+
+    @param parent1 pai1
+    @param parent2 pai2
+    @return novo indivíduo
+*/
 Solution GA::crossover(Solution parent1, Solution parent2) {
 
 	Solution child(parent1.getSize());
@@ -63,7 +92,7 @@ Solution GA::crossover(Solution parent1, Solution parent2) {
 	int startPos = rand_util_int(0, parent1.getSize());
 	int endPos = rand_util_int(0, parent2.getSize());
 
-	for (int i = 0; i < child.getSize(); i++) {
+	for (int i = 0; i < child.getSize(); i++) { // O(n)
 
 		if (startPos < endPos && i > startPos && i < endPos)
 			child.addNode(parent1.getNode(i), i);
@@ -73,7 +102,7 @@ Solution GA::crossover(Solution parent1, Solution parent2) {
 				child.addNode(parent1.getNode(i), i);
 	}
 
-	for (int i = 0; i < parent2.getSize(); i++) {
+	for (int i = 0; i < parent2.getSize(); i++) { // O(n^3)
 
 		if (!child.isPresent(parent2.getNode(i))) {
 			for (int j = 0; j < child.getSize(); j++) {
@@ -89,6 +118,13 @@ Solution GA::crossover(Solution parent1, Solution parent2) {
 	return child;
 }
 
+/**
+    Troca elementos de lugar, caso mutationRate seja maior
+    que um número aleatório gerado.
+    O(n) comparações
+
+    @param solution solução para alterar
+*/
 void GA::mutate(Solution solution) {
 
 	for (int i = 0; i < solution.getSize(); i++) {
@@ -107,6 +143,14 @@ void GA::mutate(Solution solution) {
 	}
 }
 
+/**
+    Seleciona indivíduos aleatórios de uma população
+    e retorna o indivíduo com menor distância.
+    O(n) atribuições em tournmnt.
+
+    @param population população para gerar o torneiro
+    @return melhor solução do torneio
+*/
 Solution GA::tournament(Population population) {
 
 	Population tournmnt(tournamentSize, false);

@@ -16,6 +16,13 @@ public:
     }
 };
 
+/**
+    Aloca memória para a matriz de distâncias.
+    O(n) atribuições.
+
+    @param matrix ponteiro da matrix
+    @param n tamanho do problema
+*/
 void alloc_matrix(double** &matrix, int n) {
 
     matrix = new double*[n];
@@ -25,8 +32,14 @@ void alloc_matrix(double** &matrix, int n) {
         matrix[i] = M_data + i * n;
 }
 
-void free_matrix(double** &matrix, int n) {
+/**
+    Desaloca memória para a matriz de distâncias.
+    O(n) atribuições.
 
+    @param matrix ponteiro da matrix
+    @param n tamanho do problema
+*/
+void free_matrix(double** &matrix, int n) {
 
     delete[] matrix[0];
     delete[] matrix;
@@ -36,12 +49,12 @@ void readInput(double** &dists, City *cities, int *n) {
     
     scanf("%d", n);
 
-    alloc_matrix(dists, *n);
+    alloc_matrix(dists, *n); // O(n)
     
-    for (int i = 0; i < *n; i++)
+    for (int i = 0; i < *n; i++) // O(n)
         scanf("%d %d", &(cities[i].x), &(cities[i].y));
     
-    for (int i = 0; i < *n; i++) {
+    for (int i = 0; i < *n; i++) { // O(n^2)
         dists[i][i] = 0;
         for (int j = 0; j < *n; j++) {
             if (i != j)
